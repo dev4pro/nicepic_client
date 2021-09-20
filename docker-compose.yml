@@ -1,0 +1,34 @@
+version: "3"
+services:
+    php:
+        image: dev4pro/developer:php7.4-fpm
+        restart: unless-stopped
+        volumes:
+            - ./data/config/pool.conf:/usr/local/etc/php-fpm.d/pool.conf
+            - nicepic_data:/var/www
+    nginx:
+        image: nginx
+        depends_on:
+            - php
+        restart: always
+        volumes:
+            - ./data/config/nginx.conf:/etc/nginx/nginx.conf
+            - ./data/config/default.conf.template:/etc/nginx/templates/default.conf.template
+            - nicepic_data:/var/www
+        ports:
+            - "${HTTP_PORT:-80}:80"
+        environment:
+            - DB_SERVER=${DB_SERVER}
+            - DB_DATABASE=${DB_DATABASE}
+            - DB_USER=${DB_USER}
+            - DB_PASSWORD=${DB_PASSWORD}
+            - MAX_THUMB=${MAX_THUMB}
+            - MAX_SMALL=${MAX_SMALL}
+            - CACHE_TIME=${CACHE_TIME}            
+    nicepic_client:
+        image: dev4pro/nicepic:data
+        command: tail -f /dev/null
+        volumes:
+            - nicepic_data:/var/www:Z
+volumes:
+    nicepic_data:

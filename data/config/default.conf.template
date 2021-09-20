@@ -1,0 +1,36 @@
+server {
+    index index.php;
+    server_name _;
+    root /var/www/public;
+	listen 80;
+	listen [::]:80;
+	
+	location / {
+		try_files $uri /index.php$is_args$args;
+	}	
+	location ~ ^/index\.php(/|$) {
+		fastcgi_split_path_info ^(.+\.php)(/.+)$;
+		fastcgi_pass php:9002;
+		fastcgi_index index.php;
+		include fastcgi_params;
+		
+		fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+		fastcgi_param PATH_INFO $fastcgi_path_info;
+		
+		fastcgi_param APP_DB_SERVER "${DB_SERVER}";
+		fastcgi_param APP_DB_USER "${DB_USER}";
+		fastcgi_param APP_DB_PASSWORD "${DB_PASSWORD}";
+		fastcgi_param APP_DB_DATABASE "${DB_DATABASE}";
+		fastcgi_param APP_MAX_THUMB ${MAX_THUMB};
+		fastcgi_param APP_MAX_SMALL ${MAX_SMALL};
+		fastcgi_param APP_CACHE_TIME ${CACHE_TIME};
+
+		internal;
+	}	
+	location ~ \.php$ {
+		return 404;
+	}
+	location ~ /\.ht {
+		deny all;
+	}
+}
