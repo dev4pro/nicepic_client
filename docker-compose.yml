@@ -5,7 +5,7 @@ services:
         restart: unless-stopped
         volumes:
             - ./data/config/pool.conf:/usr/local/etc/php-fpm.d/pool.conf
-            - nicepic_data:/var/www
+            - nicepic_data:/var/www:Z
     nginx:
         image: nginx
         depends_on:
@@ -14,7 +14,7 @@ services:
         volumes:
             - ./data/config/nginx.conf:/etc/nginx/nginx.conf
             - ./data/config/default.conf.template:/etc/nginx/templates/default.conf.template
-            - nicepic_data:/var/www
+            - nicepic_data:/var/www:Z
         ports:
             - "${HTTP_PORT:-80}:80"
         environment:
