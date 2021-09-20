@@ -1,1 +1,1 @@
-# nicepic_client
+# NicePic Client
