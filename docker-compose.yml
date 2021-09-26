@@ -1,5 +1,11 @@
-version: "3"
+version: "3.8"
 services:
+    nicepic_client:
+        image: dev4pro/nicepic:data
+        command: tail -f /dev/null
+        volumes:
+            - nicepic_data:/var/www:Z
+            - nicepic_files:/var/nicepic:Z
     php:
         build:
             context: ./data/php
@@ -29,13 +35,6 @@ services:
             - MAX_THUMB=${MAX_THUMB}
             - MAX_SMALL=${MAX_SMALL}
             - CACHE_TIME=${CACHE_TIME}
-
-    nicepic_client:
-        image: dev4pro/nicepic:data
-        command: tail -f /dev/null
-        volumes:
-            - nicepic_data:/var/www:Z
-            - nicepic_files:/var/nicepic:Z
 volumes:
     nicepic_data:
     nicepic_files:
