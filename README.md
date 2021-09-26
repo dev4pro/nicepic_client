@@ -1,2 +1,2 @@
-# NicePic Client
+# NicePic Client (VIS)
 
