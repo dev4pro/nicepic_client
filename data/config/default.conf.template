@@ -17,6 +17,7 @@ server {
 		fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
 		fastcgi_param PATH_INFO $fastcgi_path_info;
 		
+		fastcgi_param APP_INTERFACE "${INTERFACE}";
 		fastcgi_param APP_DB_SERVER "${DB_SERVER}";
 		fastcgi_param APP_DB_USER "${DB_USER}";
 		fastcgi_param APP_DB_PASSWORD "${DB_PASSWORD}";
